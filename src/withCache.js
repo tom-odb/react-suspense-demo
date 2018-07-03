@@ -8,3 +8,5 @@ export const withCache = Component => {
     </SimpleCache.Consumer>
   );
 };
+
+// https://github.com/facebook/react/blob/master/packages/simple-cache-provider/src/SimpleCacheProvider.js

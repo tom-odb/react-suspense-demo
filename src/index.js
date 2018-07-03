@@ -17,8 +17,8 @@ const App = () => {
   const stylesheet = document.styleSheets[0];
   stylesheet.insertRule(keyframes, stylesheet.cssRules.length);
 
-  // const template = <LoadingExample />;
-  const template = <SuspenseExample />;
+  const template = <LoadingExample />;
+  // const template = <SuspenseExample />;
 
   return <div className="App">{template}</div>;
 };
