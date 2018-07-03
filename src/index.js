@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import { LoadingExample } from "./loading";
+// import { LoadingExample } from "./loading";
 import { SuspenseExample } from "./suspense";
 
 import "./styles.css";

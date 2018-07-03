@@ -6,14 +6,7 @@ import { getLamas as getLamasFromService } from "./lamaservice";
 import { withCache } from "./withCache";
 import { Spinner } from "./spinner";
 
-const getLamas = createResource(
-  () =>
-    new Promise(resolve => {
-      setTimeout(() => {
-        resolve([]);
-      }, 2000);
-    })
-);
+const getLamas = createResource(getLamasFromService);
 
 const Lamas = withCache(props => {
   const lamas = getLamas.read(props.cache);
@@ -21,18 +14,22 @@ const Lamas = withCache(props => {
   return <LamaList lamas={lamas} />;
 });
 
+const Loading = props => {
+  return (
+    <Timeout ms={props.ms}>
+      {didTimeout => {
+        return didTimeout ? props.fallback : props.children
+      }}
+    </Timeout>
+  );
+};
+
 export class SuspenseExample extends Component {
   render() {
     return (
-      <Timeout ms={1000}>
-        {didTimeout => {
-          if (didTimeout) {
-            return <Spinner />;
-          }
-
-          return <Lamas />;
-        }}
-      </Timeout>
+      <Loading ms={1000} fallback={<Spinner />}>
+        <Lamas />
+      </Loading>
     );
   }
 }
