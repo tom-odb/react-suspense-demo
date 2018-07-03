@@ -10,6 +10,17 @@ export const getLamas = () =>
             name: "Mike"
           }
         ]),
-      2000
+      5000
+    );
+  });
+
+export const getLama = () =>
+  new Promise(resolve => {
+    setTimeout(
+      () =>
+        resolve({
+          name: "Tim"
+        }),
+      5000
     );
   });
