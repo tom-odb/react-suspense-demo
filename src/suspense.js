@@ -1,4 +1,5 @@
 import React, { Component, Timeout } from "react";
+import ReactDOM from "react-dom";
 import { createResource, createCache } from "simple-cache-provider";
 
 import { LamaList } from "./lamalist";
@@ -46,16 +47,51 @@ const Loading = ({ ms, children, fallback }) => {
 };
 
 export class SuspenseExample extends Component {
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {
+      loadData: false
+    };
+  }
+
+  componentDidMount() {
+    ReactDOM.unstable_deferredUpdates(() => {
+      console.log(new Date().getTime(), "Defered setState scheduled");
+      this.setState({
+        loadData: true
+      });
+    });
+  }
+
   render() {
+    const loadData = this.state.loadData;
+    const lama = (
+      <div>
+        {loadData && (
+          <Loading ms={2000} fallback={<Spinner />}>
+            <AsyncLama />
+          </Loading>
+        )}
+      </div>
+    );
+    const lamas = (
+      <div>
+        {loadData && (
+          <Loading ms={3000} fallback={<Spinner />}>
+            <Lamas />
+          </Loading>
+        )}
+      </div>
+    );
+
+    const template = lamas;
+    // const template = lama;
+
     return (
       <div>
         <h2>Lamas with suspense</h2>
-        <Loading ms={2000} fallback={<Spinner />}>
-          <AsyncLama />
-        </Loading>
-        <Loading ms={3000} fallback={<Spinner />}>
-          <Lamas />
-        </Loading>
+        {template}
       </div>
     );
   }
